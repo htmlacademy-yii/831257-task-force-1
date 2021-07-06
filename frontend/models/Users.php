@@ -280,4 +280,14 @@ class Users extends \yii\db\ActiveRecord
 
         return $interval->y;
     }
+
+    /**
+     * Generates password hash from password and sets it to the model
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = Yii::$app->security->generatePasswordHash($password);
+    }
 }

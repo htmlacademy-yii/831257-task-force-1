@@ -1,3 +1,8 @@
+<?php
+    use yii\helpers\Html;
+    use yii\helpers\Url;
+    use yii\widgets\ActiveForm;
+?>
 <section class="user__search">
     <?php foreach ($builders as $builder) { ?>
         <div class="content-view__feedback-card user__search-wrapper">
@@ -20,7 +25,9 @@
               </span>
             </div>
             <div class="feedback-card__top--name user__search-card">
-              <p class="link-name"><a href="user.html" class="link-regular"><?= $builder->login; ?></a></p>
+              <p class="link-name">
+                <?= Html::tag('a', $builder->login, ['class'=>"link-regular", 'href'=>Url::to("user/".$builder->id)])?>
+              </p>
               <span></span><span></span><span></span><span></span><span class="star-disabled"></span>
               <b><?= $builder->raiting; ?></b>
               <p class="user__search-content">
@@ -42,8 +49,6 @@
 <section class="search-task">
     <div class="search-task__wrapper">
         <?php
-            use yii\widgets\ActiveForm;
-
             $form = ActiveForm::begin([
                 'id' => 'search_tasks_id',
                 'options' => ['class' => 'search-task__form', 'name' => 'search_tasks', 'method' => 'post', 'action' => "#"]

@@ -1,6 +1,7 @@
 <?php
     use yii\widgets\ActiveForm;
     use \yii\helpers\Html;
+    use yii\helpers\Url;
 ?>
 <section class="new-task">
   <div class="new-task__wrapper">
@@ -8,7 +9,7 @@
     <?php foreach ($tasks as $task) { ?>
       <div class="new-task__card">
         <div class="new-task__title">
-          <?= Html::tag('a', '<h2>'.$task->job.'</h2>', ['class'=>"link-regular", 'href'=>"task/".$task->id])?>
+          <?= Html::tag('a', '<h2>'.$task->job.'</h2>', ['class'=>"link-regular", 'href'=>Url::to("task/".$task->id)])?>
           <a class="new-task__type link-regular" href="#"><p><?= $task->category->category; ?></p></a>
         </div>
         <div class="new-task__icon new-task__icon--<?= $task->category->icon; ?>"></div>

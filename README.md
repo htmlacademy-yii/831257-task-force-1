@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
 * Студент: [Борис Шкаров](https://up.htmlacademy.ru/yii/1/user/831257).
-* Наставник: `Анатолий Пашин`.
+* Наставник: `Алексей Петров`.
 
 ---
 Репозиторий создан для обучения на профессиональном онлайн‑курсе «[PHP, уровень 2](https://htmlacademy.ru/intensive/php2)» от [HTML Academy](https://htmlacademy.ru).

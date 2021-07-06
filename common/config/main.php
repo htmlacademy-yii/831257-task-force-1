@@ -6,6 +6,7 @@ return [
         '@imgPath'   => '/img',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'defaultRoute' => 'landing/index',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -15,11 +16,12 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-	        '//' => '/',
-                'tasks' => 'tasks/index',
+                '//' => '/',
+	        'tasks' => 'tasks/index',
                 'task/<id:\d+>' => 'tasks/view',
                 'users' => 'users/index',
                 'user/<id:\d+>' => 'users/view',
+                'signup' => 'signup/create',
             ],
         ],
     ],

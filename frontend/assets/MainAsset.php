@@ -12,6 +12,7 @@ class MainAsset extends AssetBundle
     public $basePath = '@frontend';
 
     public $css = [
+	'css/normalize.css',
         'css/style.css',
     ];
     public $js = [

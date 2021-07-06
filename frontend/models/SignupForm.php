@@ -1,79 +1,66 @@
 <?php
 namespace frontend\models;
 
-use Yii;
 use yii\base\Model;
-use common\models\User;
 
 /**
  * Signup form
  */
 class SignupForm extends Model
 {
-    public $username;
     public $email;
+    public $login;
     public $password;
 
+    /**
+     * @var string $cities_list Массив городов, ключ - id города, значение - наименование города
+     */
+    public $cities_list;
 
     /**
-     * {@inheritdoc}
+     * @var string $city_id id города
      */
+    public $city_id;
+
     public function rules()
     {
         return [
-            ['username', 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['login', 'trim'],
+            ['login', 'required', 'message' => "Введите ваше имя и фамилию"],
+            ['login', 'unique', 'targetClass' => '\frontend\models\Users', 'message' => 'Такое имя пользователя уже существует.'],
+            ['login', 'string', 'min' => 2, 'max' => 70, 'tooShort' => "Длина имени от 2 символов", 'tooLong' => "Длина имени до 70 символов"],
 
             ['email', 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
+            ['email', 'required', 'message' => "Введите адрес электронной почты"],
+            ['email', 'email', 'message' => "Введите валидный адрес электронной почты"],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\frontend\models\Users', 'message' => 'Такой email уже существует.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['password', 'required', 'message' => "Введите пароль"],
+            ['password', 'string', 'min' => 8, 'max' => 255, 'tooShort' => "Длина пароля от 8 символов", 'tooLong' => "Длина пароля до 255 символов"],
+
+            ['cities_list', 'default', 'value' => Cities::getCitiesList()],
+            ['city_id', 'default', 'value' => 1],
         ];
     }
 
     /**
      * Signs user up.
      *
-     * @return bool whether the creating new account was successful and email was sent
+     * @return bool
      */
-    public function signup()
+    public function signup() : bool
     {
-        if (!$this->validate()) {
-            return null;
-        }
-        
-        $user = new User();
-        $user->username = $this->username;
+        $user = new Users();
+        $user->login = $this->login;
         $user->email = $this->email;
+        $user->city_id = $this->city_id;
         $user->setPassword($this->password);
-        $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
 
-    }
+        // в БД дата хранится в UTC
+        $date = new \DateTime('now', new \DateTimeZone('UTC'));
+        $user->date_add = $date->format('Y-m-d H:i:s');
 
-    /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
-    protected function sendEmail($user)
-    {
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Account registration at ' . Yii::$app->name)
-            ->send();
+        return $user->save();
     }
 }

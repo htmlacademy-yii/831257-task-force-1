@@ -1,17 +1,8 @@
 <?php
+    use yii\helpers\Html;
+    use frontend\assets\MainAsset;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use frontend\assets\MainAsset;
-use common\widgets\Alert;
-
-MainAsset::register($this);
-
+    MainAsset::register($this);
 ?>
 
 <?php $this->beginPage() ?>
@@ -23,15 +14,14 @@ MainAsset::register($this);
 
     <meta charset="UTF-8">
     <title>TaskForce</title>
-<!--    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">-->
 </head>
 
 <body>
 <?php $this->beginBody() ?>
 
-<div class="table-layout">
-    <header class="page-header">
+  <div class="table-layout">
+    <?php if (Yii::$app->request->url != '/' && Yii::$app->request->url != '/signup') { ?>
+      <header class="page-header">
         <div class="main-container page-header__container">
             <div class="page-header__logo">
                 <a href="index.html">
@@ -126,7 +116,8 @@ MainAsset::register($this);
                 </ul>
             </div>
         </div>
-    </header>
+      </header>
+    <?php } ?>
     <main class="page-main">
         <div class="main-container page-container">
 
@@ -169,16 +160,14 @@ MainAsset::register($this);
                 </ul>
             </div>
             <div class="page-footer__copyright">
-                <a>
-                    <img class="copyright-logo"
-                         src="./img/academy-logo.png"
-                         width="185" height="63"
-                         alt="Логотип HTML Academy">
-                </a>
+              <a>
+                 <?= Html::img('@imgPath/academy-logo.png',['class'=>"copyright-logo",
+                    'width'=>"185", 'height'=>"63", 'alt'=>"Логотип HTML Academy"])?>
+              </a>
             </div>
         </div>
     </footer>
-</div>
+  </div>
 
 <?php $this->endBody() ?>
 </body>

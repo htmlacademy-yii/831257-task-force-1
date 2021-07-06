@@ -57,4 +57,14 @@ class Cities extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Users::className(), ['city_id' => 'id']);
     }
+
+    /**
+     * получение массива городов ['id категории' => 'Наименование города', ...]
+     *
+     * @return array
+     */
+    public static function getCitiesList() : array
+    {
+        return yii\helpers\ArrayHelper::map(Cities::find()->all(), 'id', 'city');
+    }
 }

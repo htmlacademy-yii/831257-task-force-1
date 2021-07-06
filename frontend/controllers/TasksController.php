@@ -19,10 +19,8 @@ class TasksController extends Controller
         $cats = Categories::getCategoriesList();
 
         $model_form = new TasksSearchForm();
-
-        $model_form->validate();
-
         $model_form->load(Yii::$app->request->post());
+        $model_form->validate();
 
         //формирование запроса
         $query = Tasks::find()
