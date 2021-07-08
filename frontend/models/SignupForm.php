@@ -22,6 +22,22 @@ class SignupForm extends Model
      */
     public $city_id;
 
+    /**
+     * @var Users
+     */
+    private $users;
+
+    /**
+     * @var Cities
+     */
+    private $cities;
+
+    public function __construct(Users $users, Cities $cities)
+    {
+        $this->users = $users;
+        $this->cities = $cities;
+    }
+
     public function rules()
     {
         return [
@@ -39,7 +55,7 @@ class SignupForm extends Model
             ['password', 'required', 'message' => "Введите пароль"],
             ['password', 'string', 'min' => 8, 'max' => 255, 'tooShort' => "Длина пароля от 8 символов", 'tooLong' => "Длина пароля до 255 символов"],
 
-            ['cities_list', 'default', 'value' => Cities::getCitiesList()],
+            ['cities_list', 'default', 'value' => $this->cities->getList()],
             ['city_id', 'default', 'value' => 1],
         ];
     }
@@ -51,7 +67,7 @@ class SignupForm extends Model
      */
     public function signup() : bool
     {
-        $user = new Users();
+        $user = $this->users;
         $user->login = $this->login;
         $user->email = $this->email;
         $user->city_id = $this->city_id;

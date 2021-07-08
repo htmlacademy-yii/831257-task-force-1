@@ -1,9 +1,15 @@
 <?php
+
+use common\bootstrap\ServicesDefinitions;
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
         '@imgPath'   => '/img',
+    ],
+    'bootstrap' => [
+        ServicesDefinitions::class
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'defaultRoute' => 'landing/index',
