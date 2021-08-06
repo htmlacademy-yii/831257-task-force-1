@@ -9,7 +9,6 @@ use frontend\models\SignupForm;
 class SignupController extends Controller
 {
     public function actionCreate() {
-
         $user_new = \Yii::$container->get(SignupForm::class);
 
         if (!Yii::$app->request->getIsPost()) {

@@ -3,6 +3,10 @@
 namespace frontend\models;
 
 use Yii;
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "users".
@@ -42,13 +46,14 @@ use Yii;
  * @property Tasks[] $tasks0
  * @property Cities $city
  */
-class Users extends \yii\db\ActiveRecord
+class Users extends ActiveRecord implements IdentityInterface
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
+//        return '{{%user}}';
         return 'users';
     }
 
@@ -61,16 +66,70 @@ class Users extends \yii\db\ActiveRecord
             [['email', 'login', 'password', 'city_id'], 'required'],
             [['date_add', 'birthday', 'last_activity'], 'safe'],
             [['city_id', 'is_builder', 'new_message', 'task_actions', 'new_review', 'show_my_contacts', 'not_show_my_profile', 'tasks_count', 'opinions_count'], 'integer'],
-            [['about_me'], 'string'],
-            [['email'], 'string', 'max' => 320],
+            ['about_me', 'string'],
+
+            ['email', 'string', 'max' => 320],
+            ['email', 'email'],
+            ['email', 'unique'],
+
             [['login', 'avatar'], 'string', 'max' => 70],
-            [['password'], 'string', 'max' => 255],
-            [['phone'], 'string', 'max' => 11],
+
+            ['password', 'string', 'min' => 8, 'max' => 255],
+
+            ['phone', 'string', 'max' => 11],
+            ['phone', 'match', 'pattern' => '/^[\d]{11}/i',
+            'message' => 'Номер телефона должен состоять из 11 цифр'],
+
             [['skype', 'telegram'], 'string', 'max' => 45],
             [['raiting'], 'string', 'max' => 4],
-            [['email'], 'unique'],
+
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentity($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+//        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthKey()
+    {
+//        return $this->auth_key;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAuthKey($authKey)
+    {
+//        return $this->getAuthKey() === $authKey;
+    }
+
+    public function validatePassword($password)
+    {
+        return \Yii::$app->security->validatePassword($password, $this->password);
     }
 
     /**

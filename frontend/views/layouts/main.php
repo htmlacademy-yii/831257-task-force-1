@@ -1,6 +1,8 @@
 <?php
     use yii\helpers\Html;
     use frontend\assets\MainAsset;
+    use yii\helpers\Url;
+    use frontend\models\Users;
 
     MainAsset::register($this);
 ?>
@@ -67,7 +69,9 @@
           </ul>
         </div>
 
-        <?php if (Yii::$app->request->url != '/' && Yii::$app->request->url != '/signup') { ?>
+
+        <?php if (!Yii::$app->user->isGuest) {
+            $person = Users::findIdentity(Yii::$app->user->id);?>
 
             <div class="header__town">
                 <select class="multiple-select input town-select" size="1" name="town[]">
@@ -95,14 +99,13 @@
                 </p>
             </div>
             <div class="header__account">
-                <a class="header__account-photo">
-                    <img src="./img/user-photo.png"
-                         width="43" height="44"
-                         alt="Аватар пользователя">
-                </a>
-                <span class="header__account-name">
-                 Василий
-             </span>
+
+              <?= HTml::tag('a',
+                        HTml::img('@imgPath/'.$person->avatar, ['width'=>"43", 'height'=>"44", 'alt'=>"Аватар пользователя"]),
+                        ['class'=>"header__account-photo"]);
+              ?>
+              <?= HTml::tag('span', $person->login, ['class'=>"header__account-name"]);?>
+
             </div>
             <div class="account__pop-up">
                 <ul class="account__pop-up-list">
@@ -113,7 +116,7 @@
                         <a href="#">Настройки</a>
                     </li>
                     <li>
-                        <a href="#">Выход</a>
+                      <?= Html::tag('a','Выход', ['href'=>Url::toRoute("/landing/logout")])?>
                     </li>
                 </ul>
             </div>
@@ -173,6 +176,7 @@
             </div>
         </div>
     </footer>
+
   </div>
 
 <?php $this->endBody() ?>

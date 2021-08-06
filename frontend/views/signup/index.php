@@ -67,6 +67,7 @@
     <?php ActiveForm::end(); ?>
 
   </div>
+  <!--
   <div class="clipart-woman">
     <img src="./img/clipart-woman.png" width="238" height="450">
   </div>
@@ -79,5 +80,5 @@
         от 500 рублей в час.</p>
     </div>
   </div>
-
+-->
 </section>

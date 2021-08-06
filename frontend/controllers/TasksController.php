@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use frontend\models\Tasks;
 use frontend\models\Categories;
@@ -11,7 +10,7 @@ use frontend\models\TasksSearchForm;
 use TaskForce\logic\TaskLogic;
 use TaskForce\services\FilterTasks;
 
-class TasksController extends Controller
+class TasksController extends SecuredController
 {
     public function actionIndex()
     {
