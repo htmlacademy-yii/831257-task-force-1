@@ -1,12 +1,18 @@
 <?php
+
+use common\bootstrap\ServicesDefinitions;
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
         '@imgPath'   => '/img',
     ],
+    'bootstrap' => [
+        ServicesDefinitions::class
+    ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'defaultRoute' => 'landing/index',
+    'defaultRoute' => 'landing',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -22,6 +28,7 @@ return [
                 'users' => 'users/index',
                 'user/<id:\d+>' => 'users/view',
                 'signup' => 'signup/create',
+                'signin' => 'landing/index',
             ],
         ],
     ],

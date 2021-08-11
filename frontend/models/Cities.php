@@ -63,8 +63,13 @@ class Cities extends \yii\db\ActiveRecord
      *
      * @return array
      */
-    public static function getCitiesList() : array
+    public function getList() : array
+
+
+//    public static function getCitiesList() : array
     {
-        return yii\helpers\ArrayHelper::map(Cities::find()->all(), 'id', 'city');
+//        return yii\helpers\ArrayHelper::map(Cities::find()->all(), 'id', 'city');
+
+        return yii\helpers\ArrayHelper::map(self::find()->all(), 'id', 'city');
     }
 }

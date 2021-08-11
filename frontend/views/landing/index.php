@@ -1,7 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-
+use frontend\models\LoginForm;
+use yii\widgets\ActiveForm;
 ?>
 
 <div class="landing">
@@ -38,10 +39,13 @@ use yii\helpers\Url;
           <p>Работа там, где ты!</p>
         </div>
         <div class="header__account--index">
-          <a href="#" class="header__account-enter open-modal" data-for="enter-form">
-            <span>Вход</span></a>
+
+          <?= Html::tag('a', 'Вход', ['class'=>"header__account-enter open-modal",
+                                      'data-for'=>"enter-form",
+                                      'href'=>'#'])?>
           или
-          <?= Html::tag('a','Регистрация', ['class'=>"header__account-registration", 'href'=>Url::to("signup")])?>
+          <?= Html::tag('a','Регистрация', ['class'=>"header__account-registration",
+                                            'href'=>Url::to("signup")])?>
         </div>
       </div>
     </div>
@@ -207,3 +211,47 @@ use yii\helpers\Url;
     </div>
   </div>
 </div>
+
+<section class="modal enter-form form-modal" id="enter-form">
+        <h2>Вход на сайт</h2>
+
+        <?php
+        $model = new LoginForm();
+        $form = ActiveForm::begin([
+        'id' => 'signin',
+        'options' => ['name'=>'signin', 'method'=>'post'],
+        'action' => ["login"],
+        ]); ?>
+            <p>
+              <label class="form-modal-description" for="enter-email">Email</label>
+
+              <?= $form->field($model, 'email')->textInput([
+                'class' => "enter-form-email input input-middle",
+                'type' => 'email',
+                'placeholder' => "somebody@mail.ru",
+                'template' => "{input}\n{error}",
+                ])
+                ->label(false)
+              ?>
+            </p>
+
+            <p>
+              <label class="form-modal-description" for="enter-password">Пароль</label>
+
+              <?= $form->field($model, 'password')->textInput([
+                'class' => "enter-form-email input input-middle",
+                'type' => 'password',
+                'template' => "{input}\n{error}",
+                ])
+                ->label(false)
+              ?>
+            </p>
+
+            <button class="button" type="submit">Войти</button>
+
+        <?php ActiveForm::end(); ?>
+
+        <button class="form-modal-close" type="button">Закрыть</button>
+
+</section>
+

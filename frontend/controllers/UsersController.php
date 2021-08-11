@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use frontend\models\Users;
 use frontend\models\Categories;
@@ -11,7 +10,7 @@ use frontend\models\UsersSearchForm;
 use TaskForce\services\FilterUsers;
 
 
-class UsersController extends Controller
+class UsersController extends SecuredController
 {
     public function actionIndex()
     {
